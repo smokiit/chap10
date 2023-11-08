@@ -16,10 +16,13 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".ex1"
+            android:exported="false" />
+        <activity
             android:name=".ex2"
             android:exported="false" />
         <activity
-            android:name=".ex1"
+            android:name=".ex6"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
