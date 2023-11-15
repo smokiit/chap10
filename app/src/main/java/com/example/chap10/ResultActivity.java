@@ -7,51 +7,43 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ResultActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ex9);
-        setTitle("영화 신호도 투표");
+        setTitle("투표 결과");
 
-        final int voteCount[] = new int[9];
-        for (int i = 0; i< 9; i++)
-            voteCount[i] = 0;
+        Intent intent = getIntent();
+        int[] voteResult = intent.getIntArrayExtra("VoteCount");
+        String[] imageName = intent.getStringArrayExtra("ImageName");
 
-        ImageView image[] = new ImageView[9];
-        Interger imageId[] = {R.id.iv1, R.id.iv2, R.id.iv3, R.id.iv4, R.id.iv5,
-                R.id.iv6, R.id.iv7, R.id.iv8, R.id.iv9};
+        TextView tv[] = new TextView[imageName.length];
+        RatingBar rbar[] = new RatingBar[imageName.length];
 
-        final String imgName[] = {"독서하는 소녀",
-            "꽃장식 모자 소녀", "부채를 존 소녀", "이레느깡 단 베르양",
-            "잠자는 소녀", "테라스의 두 지매", "피아노 레슨",
-            "피아노 앞의 소녀들", "해변에서"};
+        int[] tvID = {R.id.tv1, R.id.tv2, R.id.tv3, R.id.tv4, R.id.tv5,
+                            R.id.tv6, R.id.tv7, R.id.tv8, R.id.tv9 };
+        int[] rbarID = { R.id.rbar1, R.id.rbar2, R.id.rbar3, R.id.rbar4,
+                            R.id.rbar5, R.id.rbar6, R.id.rbar7, R.id.rbar8, R.id.rbar9};
 
-        for (int i = 0; i < imageId.length; i++) {
-            final int index;
-            index = i;
-            image[index] = (ImageView) findViewById(imageId[index]);
-            image[index].setOnClickListener(new View.OnClickListener() {
-                public void onCLick(View v) {
-                    voteCount[index]++;
-                    Toast.makeText(getApplicationContext(),
-                        imgName[index] + ": 총 " + voteCount[index] + " 표",
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
+        for (int i= 0; i < voteResult.length; i++) {
+            tv[i] = (TextView) findViewById(tvID[i]);
+            rbar[i] = (RatingBar) findViewById(rbarID[i]);
         }
 
-        Button btnFinish = (Button) findViewById((R.id.btnResult);
-        btnFinish.setOnClickListener(new View.OnClickListener() {
+        for (int i = 0; i < voteResult.length; i++) {
+            tv[i].setText(imageName[i]);
+            rbar[i].setRating((float) voteResult[i]);
+        }
+
+        Button btnReturn = (Button) findViewById(R.id.btnReturn);
+        btnReturn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),
-                        ResultActivity.class);
-                intent.putExtra("VoteCount", voteCount);
-                intent.putExtra("ImageName", imgName);
-                startActivity(intent);
+                finish();
             }
         });
 
